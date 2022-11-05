@@ -48,5 +48,5 @@ localhost:8000/delete=(айди текста)
 Для того, чтобы запустить тесты, нужно раскоментить часть в файле enviroment.py и потом запустить
 
 ```
-pytest
+pytest -p no:warnings
 ```
