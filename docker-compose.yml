@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: basic-postgres
+    image: postgres
+    env_file: postgres.env
+    environment:
+      PGDATA: /data/postgres
+    network_mode: host
+
+  web:
+    network_mode: host
+    container_name: web-container
+    build: ./
+    env_file:
+      - db.env
+    depends_on:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
+  web:
