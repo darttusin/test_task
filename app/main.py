@@ -11,7 +11,7 @@ es = AsyncElasticsearch("http://localhost:9200")
 
 
 # инициализация сервиса, добавление текста в бд и в index
-@app.get("/initiaize")
+@app.get("/initialize")
 async def create_index() -> dict:
 
     if await es.indices.exists(index="texts"):
