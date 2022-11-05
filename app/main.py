@@ -60,7 +60,7 @@ async def find_docs(text: str) -> dict:
 
 
 # удаление по text_id текста из index и бд
-@app.get("/delete/{text_id}")
+@app.get("/delete={text_id}")
 async def delete_text(text_id: str) -> dict:
     payload = {
     "query": { 
