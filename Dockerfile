@@ -11,4 +11,4 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 COPY ./app /test_task/app
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0"]
+CMD ["python3", "-m", "app"]

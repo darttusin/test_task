@@ -1,17 +1,17 @@
 import pandas as pd
 from app.database.db import add_new_texts, get_all_texts, get_text_by_id, delete_text_db
 import asyncio
-from fastapi import FastAPI
 from elasticsearch import AsyncElasticsearch
+from fastapi import APIRouter
 
-
-app = FastAPI()
 
 es = AsyncElasticsearch("http://localhost:9200")
 
+router = APIRouter()
+
 
 # инициализация сервиса, добавление текста в бд и в index
-@app.get("/initialize")
+@router.get("/initialize")
 async def create_index() -> dict:
 
     if await es.indices.exists(index="texts"):
@@ -34,7 +34,7 @@ async def create_index() -> dict:
 
 
 # поиск текста по индексу
-@app.get("/find={text}")
+@router.get("/find={text}")
 async def find_docs(text: str) -> dict:
     payload = {
         "size": 20,
@@ -60,7 +60,7 @@ async def find_docs(text: str) -> dict:
 
 
 # удаление по text_id текста из index и бд
-@app.get("/delete={text_id}")
+@router.get("/delete={text_id}")
 async def delete_text(text_id: str) -> dict:
     payload = {
     "query": { 

@@ -4,8 +4,8 @@ from typing import List
 import asyncpg
 
 from app.database.dals import TextsDAL
-from app.utils import generate_text_id
-from app.enviroment import DBHOST, DBNAME, DBPASSWORD, DBPORT, DBUSER
+from app.utils.utils import generate_text_id
+from app.constants.enviroment import DBHOST, DBNAME, DBPASSWORD, DBPORT, DBUSER
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
