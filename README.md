@@ -1,31 +1,11 @@
 # Web-search
-Для того, чтобы поднять сервис вам нужно установить elasticsearch
-
-После вы запускаете его командами
+Переходим в папку с проектом и пишем команду
 
 ```
-sudo systemctl start elasticsearch
+docker-compose build && docker-compose up -d
 ```
 
-```
-sudo systemctl enable elasticsearch
-```
-
-Проверяете работу 
-
-```
-curl -XGET http://localhost:9200/
-```
-
-Результат должен быть ответом в json
-
-После переходим в папку с проектом и пишем команду
-
-```
-docker-compose up -d
-```
-
-После нужно перейти по 
+После нужно подождать инициализации эластика и перейти по 
 
 ```
 localhost:8000/initialize

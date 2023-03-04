@@ -1,12 +1,12 @@
-import os
+from os import environ as env
 
 
 # получение переменных окружения для бд
-DBUSER = os.environ.get('DBUSER')
-DBPASSWORD = os.environ.get('DBPASSWORD')
-DBHOST = os.environ.get('DBHOST')
-DBNAME = os.environ.get('DBNAME')
-DBPORT = os.environ.get('DBPORT')
+DBUSER: str | None = env.get('DBUSER')
+DBPASSWORD: str | None = env.get('DBPASSWORD')
+DBHOST: str | None = env.get('DBHOST')
+DBNAME: str | None = env.get('DBNAME')
+DBPORT: str | None = env.get('DBPORT')
 
 
 # DBUSER = 'admin'

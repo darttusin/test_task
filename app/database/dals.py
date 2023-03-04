@@ -1,20 +1,20 @@
+from datetime import datetime
 from app.database.models import Texts
-from sqlalchemy import select, update, or_, delete, and_
-from sqlalchemy.orm import Session, join
-from typing import List
+from sqlalchemy import select, delete
+from sqlalchemy.orm import Session
 
 
 # далс для взаимодействия с бд
 class TextsDAL:
-    def __init__(self, db_session: Session):
-        self.db_session = db_session
+    def __init__(self, db_session: Session)  -> None:
+        self.db_session: Session = db_session
 
 
     # добавление нового текста
     async def add_new_text(self, text_id: str, rubrics: str, 
-                            text_: str, created_date: str) -> None:
+                            text_: str, created_date: datetime) -> None:
 
-        request = Texts(
+        request: Texts = Texts(
             text_id=text_id,
             rubrics=rubrics,
             text_=text_,
@@ -22,7 +22,7 @@ class TextsDAL:
         )
             
         self.db_session.add(request)
-        await self.db_session.flush()
+        await self.db_session.flush() # type: ignore
 
 
     # получение всех текстов
@@ -33,8 +33,7 @@ class TextsDAL:
                 Texts.text_id, 
                 Texts.text_
             )
-        )
-
+        ) # type: ignore
         # запись запроса в словарь
         text_num = 1
         data = {}
@@ -57,7 +56,7 @@ class TextsDAL:
             ).where(
                 Texts.text_id==text_id
             )
-        )
+        ) # type: ignore
 
         # добавление запроса в словарь, с редактированием некоторых полей
         data = {}
@@ -73,6 +72,6 @@ class TextsDAL:
     # удаление текста из бд
     async def delete_text_db(self, text_id: str) -> None:
         
-        requst = await self.db_session.execute(
+        await self.db_session.execute(
             delete(Texts).where(Texts.text_id==text_id)
-            )
+        ) #type: ignore

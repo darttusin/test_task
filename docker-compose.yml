@@ -7,18 +7,26 @@ services:
     env_file: postgres.env
     environment:
       PGDATA: /data/postgres
-    network_mode: host
+    expose:
+      - 5432
 
   web:
-    network_mode: host
     container_name: web-container
     build: ./
     env_file:
       - db.env
     depends_on:
-      - postgres
+      - elasticsearch
+    ports:
+      - 8000:8000
 
-networks:
-  postgres:
-    driver: bridge
-  web:
+  elasticsearch:
+    image: elasticsearch:7.6.2
+    container_name: elasticsearch
+    environment:
+    - discovery.type=single-node
+    depends_on:
+      - postgres
+    ports:
+    - 9300:9300
+    - 9200:9200

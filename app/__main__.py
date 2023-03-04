@@ -3,7 +3,7 @@ from app.routers import router
 import uvicorn
 
 
-app = FastAPI()
+app: FastAPI = FastAPI()
 
 app.include_router(router)
 

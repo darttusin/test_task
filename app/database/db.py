@@ -1,18 +1,21 @@
-import asyncio
 from datetime import datetime
-from typing import List
 import asyncpg
 
 from app.database.dals import TextsDAL
 from app.utils.utils import generate_text_id
 from app.constants.enviroment import DBHOST, DBNAME, DBPASSWORD, DBPORT, DBUSER
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, AsyncEngine
 from sqlalchemy.orm import sessionmaker
 
 
 # создание базы данных при инициализации
-async def create_db():
-    connection: asyncpg.Connection = await asyncpg.connect(user=DBUSER, password=DBPASSWORD, database=DBNAME, host=DBHOST)
+async def create_db() -> None:
+    connection: asyncpg.Connection = await asyncpg.connect(
+        user=DBUSER, 
+        password=DBPASSWORD, 
+        database=DBNAME, 
+        host=DBHOST
+    )
     try:
         await connection.execute("SELECT * FROM texts;")
         await connection.execute("DROP TABLE texts;")
@@ -22,9 +25,9 @@ async def create_db():
 
 
 # подключение к бд
-url = f"postgresql+asyncpg://{DBUSER}:{DBPASSWORD}@{DBHOST}:{DBPORT}/{DBNAME}"
-engine = create_async_engine(url, future=True, echo=False)
-async_session = sessionmaker(
+url: str = f"postgresql+asyncpg://{DBUSER}:{DBPASSWORD}@{DBHOST}:{DBPORT}/{DBNAME}"
+engine: AsyncEngine = create_async_engine(url, future=True, echo=False)
+async_session: sessionmaker = sessionmaker(
                         engine, expire_on_commit=False, class_=AsyncSession)
 
 
@@ -33,7 +36,7 @@ async def add_new_texts(df) -> None:
     
     await create_db()
 
-    async with async_session() as session:
+    async with async_session() as session: # type: ignore
         async with session.begin():
             dal = TextsDAL(session)
             for row in df.itertuples():
@@ -48,7 +51,7 @@ async def add_new_texts(df) -> None:
 # получить все тексты для добавления в index
 async def get_all_texts() -> dict:
 
-    async with async_session() as session:
+    async with async_session() as session: #type: ignore
         async with session.begin():
             dal = TextsDAL(session)
             return await dal.get_all_texts()
@@ -57,7 +60,7 @@ async def get_all_texts() -> dict:
 # получить текст по айди
 async def get_text_by_id(text_id: str) -> dict:
 
-    async with async_session() as session:
+    async with async_session() as session: #type: ignore
         async with session.begin():
             dal = TextsDAL(session)
             return await dal.get_text_by_id(text_id)
@@ -66,7 +69,7 @@ async def get_text_by_id(text_id: str) -> dict:
 # удалить текст и бд
 async def delete_text_db(text_id: str) -> None:
 
-    async with async_session() as session:
+    async with async_session() as session: #type: ignore
         async with session.begin():
             dal = TextsDAL(session)
             await dal.delete_text_db(text_id)

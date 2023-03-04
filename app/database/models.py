@@ -1,4 +1,4 @@
-from sqlalchemy import (Column, Integer, String, TIMESTAMP,
+from sqlalchemy import (Column, String, TIMESTAMP,
                         PrimaryKeyConstraint)
 from sqlalchemy.orm import declarative_base
 
